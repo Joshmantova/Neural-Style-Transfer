@@ -149,6 +149,7 @@ def run_style_transfer(cnn, normalization_mean, normalization_std, content_img, 
 
 def image_loader(image_name):
     image = Image.open(image_name)
+    image = image.resize((444, 444))
     image = loader(image).unsqueeze(0)
     return image.to(device, torch.float)
 
@@ -172,19 +173,21 @@ if __name__ == "__main__":
         transforms.Resize(imsize),
         transforms.ToTensor()
     ])
-
-    style_img = image_loader('../imgs/picasso.jpg')
-    content_img = image_loader('../imgs/dancing.jpg')
+    style_image_name = 'Alex_Grey_Over_Soul.jpg'
+    # content_image_name = 'dancing.jpg'
+    content_image_name = '../../../../downloads/1200px-Eopsaltria_australis_-_Mogo_Campground.jpg'
+    style_img = image_loader(f'../imgs/{style_image_name}')
+    content_img = image_loader(content_image_name)
 
     assert style_img.size() == content_img.size()
 
     unloader = transforms.ToPILImage()
 
-    plt.figure()
-    imshow(style_img, title='Style Image')
+    # plt.figure()
+    # imshow(style_img, title='Style Image')
 
-    plt.figure()
-    imshow(content_img, title='Content Image')
+    # plt.figure()
+    # imshow(content_img, title='Content Image')
 
     cnn = models.vgg19(pretrained=True).features.to(device).eval() #pretrained on imagenet
 
@@ -194,14 +197,14 @@ if __name__ == "__main__":
     input_img = content_img.clone()
     # input_img = torch.randn(content_img.data.size(), device=device)
 
-    plt.figure()
-    imshow(input_img, title='Input Image')
+    # plt.figure()
+    # imshow(input_img, title='Input Image')
 
     output = run_style_transfer(cnn, cnn_normalization_mean, cnn_normalization_std,
-                                content_img, style_img, input_img)
+                                content_img, style_img, input_img, style_weight=1e4)
     end = time.time()
     print(f"Time taken to train: {(end-start)/60} minutes")
     plt.figure()
     imshow(output, title='Output Image')
-    plt.savefig('Styled input image.png')
+    plt.savefig(f'Styled input image bird + {style_image_name} less style.png')
     plt.show()
