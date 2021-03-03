@@ -166,8 +166,8 @@ if __name__ == "__main__":
     # plt.ion()
     plt.ioff()
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    # imsize = 512 if torch.cuda.is_available() else 128
-    imsize = 512
+    imsize = 512 if torch.cuda.is_available() else 128
+    # imsize = 512
     loader = transforms.Compose([
         transforms.Resize(imsize),
         transforms.ToTensor()
