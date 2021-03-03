@@ -5,5 +5,5 @@ WORKDIR /app/src
 
 RUN pip install --no-cache-dir -r ../requirements.txt
 
-ENTRYPOINT [ "Python" ]
+ENTRYPOINT [ "python" ]
 CMD ["style_transfer.py"]
