@@ -57,6 +57,7 @@ def get_style_model_and_losses(cnn, normalization_mean, normalization_std, style
                                 content_layers=['conv_4'], 
                                 style_layers=['conv_1', 'conv_2', 'conv_3', 'conv_4', 'conv_5']):
     cnn = copy.deepcopy(cnn)
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     normalization = Normalization(normalization_mean, normalization_std).to(device)
     content_losses = []
@@ -139,28 +140,38 @@ def run_style_transfer(cnn, normalization_mean, normalization_std, content_img, 
                 print()
 
             return style_score + content_score
-
+        # c = copy.deepcopy(input_img)
+        # c.data.clamp_(0, 1)
+        # yield c
         optimizer.step(closure)
+        # c = copy.deepcopy(input_img)
+        # yield c
 
     input_img.data.clamp_(0, 1)
 
     return input_img
 
 
-def image_loader(image_name):
+def image_loader(image_name, imsize, device):
+    loader = transforms.Compose([
+        transforms.Resize(imsize),
+        transforms.ToTensor()
+    ])
     image = Image.open(image_name)
     image = image.resize((444, 444))
     image = loader(image).unsqueeze(0)
     return image.to(device, torch.float)
 
 def imshow(tensor, title=None):
+    unloader = transforms.ToPILImage()
     image = tensor.cpu().clone()
     image = image.squeeze(0)
     image = unloader(image)
-    plt.imshow(image)
-    if title:
-        plt.title(title)
-    plt.pause(0.001)
+    return image
+    # plt.imshow(image)
+    # if title:
+    #     plt.title(title)
+    # plt.pause(0.001)
 
 if __name__ == "__main__":
     start = time.time()
@@ -181,7 +192,7 @@ if __name__ == "__main__":
 
     assert style_img.size() == content_img.size()
 
-    unloader = transforms.ToPILImage()
+    
 
     # plt.figure()
     # imshow(style_img, title='Style Image')
