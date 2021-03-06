@@ -140,16 +140,13 @@ def run_style_transfer(cnn, normalization_mean, normalization_std, content_img, 
                 print()
 
             return style_score + content_score
-        # c = copy.deepcopy(input_img)
-        # c.data.clamp_(0, 1)
-        # yield c
         optimizer.step(closure)
-        # c = copy.deepcopy(input_img)
-        # yield c
+        input_img.data.clamp_(0, 1)
+        yield input_img
 
-    input_img.data.clamp_(0, 1)
+    # input_img.data.clamp_(0, 1)
 
-    return input_img
+    # return input_img
 
 
 def image_loader(image_name, imsize, device):
@@ -162,7 +159,7 @@ def image_loader(image_name, imsize, device):
     image = loader(image).unsqueeze(0)
     return image.to(device, torch.float)
 
-def imshow(tensor, title=None):
+def imshow(tensor):
     unloader = transforms.ToPILImage()
     image = tensor.cpu().clone()
     image = image.squeeze(0)
