@@ -142,19 +142,20 @@ def run_style_transfer(cnn, normalization_mean, normalization_std, content_img, 
             return style_score + content_score
         optimizer.step(closure)
         input_img.data.clamp_(0, 1)
-        yield input_img
+        yield input_img, run[0]
 
     # input_img.data.clamp_(0, 1)
 
     # return input_img
 
 
-def image_loader(image_name, imsize, device):
+def image_loader(image, imsize, device):
     loader = transforms.Compose([
         transforms.Resize(imsize),
         transforms.ToTensor()
     ])
-    image = Image.open(image_name)
+    if type(image) == str:
+        image = Image.open(image)
     image = image.resize((444, 444))
     image = loader(image).unsqueeze(0)
     return image.to(device, torch.float)
