@@ -9,6 +9,7 @@ from PIL import Image
 from io import BytesIO
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+st.write(f'Running on: {device}')
 image_quality_selection = st.sidebar.selectbox('Image Quality',
                                                 ["Low", "Medium", "High", "Ultra High"])
 style_weight = st.sidebar.slider('Style Weight', 3, 7, step=1, value=4)
