@@ -17,7 +17,6 @@ number_of_iterations = st.sidebar.slider('Number of Iterations', 150, 500, 300, 
 image_quality_mapping = {"Low": 128, "Medium": 256, "High": 512, "Ultra High": 1024}
 imsize = image_quality_mapping[image_quality_selection]
 # imsize = 512 if torch.cuda.is_available() else 128
-# imsize = 512
 loader = transforms.Compose([
     transforms.Resize(imsize),
     transforms.ToTensor()
@@ -34,11 +33,6 @@ if not style_image_upload and not content_image_upload:
 else:
     style_image = Image.open(style_image_upload)
     content_image = Image.open(content_image_upload)
-
-# style_image_pil = Image.open(f'../imgs/{style_image_name}')
-# content_image_pil = Image.open(content_image_name)
-# st.image(style_image_pil)
-# st.image(content_image_pil)
 
 st.title('Content Image')
 st.image(content_image.resize((444,444)))
