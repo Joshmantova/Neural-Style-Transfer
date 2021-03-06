@@ -10,9 +10,11 @@ from io import BytesIO
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 image_quality_selection = st.sidebar.selectbox('Image Quality',
-                                                ["Low", "Medium", "High"])
-style_weight = st.sidebar.slider('Style Weight', 2, 8, step=1, value=4)
-image_quality_mapping = {"Low": 128, "Medium": 256, "High": 512}
+                                                ["Low", "Medium", "High", "Ultra High"])
+style_weight = st.sidebar.slider('Style Weight', 3, 7, step=1, value=4)
+number_of_iterations = st.sidebar.slider('Number of Iterations', 150, 500, 300, 50)
+
+image_quality_mapping = {"Low": 128, "Medium": 256, "High": 512, "Ultra High": 1024}
 imsize = image_quality_mapping[image_quality_selection]
 # imsize = 512 if torch.cuda.is_available() else 128
 # imsize = 512
@@ -74,7 +76,8 @@ out.image(im.resize((444,444)))
 
 if go:
     for i, n in run_style_transfer(cnn, cnn_normalization_mean, cnn_normalization_std,
-                                content_image_loader, style_image_loader, input_img, style_weight=10 ** style_weight):
+                                content_image_loader, style_image_loader, input_img,
+                                num_steps=number_of_iterations-20, style_weight=10 ** style_weight):
         im = imshow(i)
         out.image(im.resize((444,444)))
         iter_info.write(f'Iteration Number: {n}')
