@@ -13,7 +13,7 @@ st.write(f'Running on: {device}')
 image_quality_selection = st.sidebar.selectbox('Image Quality',
                                                 ["Low", "Medium", "High", "Ultra High"])
 style_weight = st.sidebar.slider('Style Weight', 3, 7, step=1, value=4)
-number_of_iterations = st.sidebar.slider('Number of Iterations', 150, 500, 300, 50)
+number_of_iterations = st.sidebar.slider('Number of Iterations', 150, 1000, 300, 50)
 
 image_quality_mapping = {"Low": 128, "Medium": 256, "High": 512, "Ultra High": 1024}
 imsize = image_quality_mapping[image_quality_selection]
