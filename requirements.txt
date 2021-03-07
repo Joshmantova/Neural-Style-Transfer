@@ -1,5 +1,3 @@
-Cython==0.29.21
-pyarrow==3.0.0
 torch==1.7.1
 torchvision==0.8.2
 matplotlib==3.3.2
