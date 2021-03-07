@@ -1,4 +1,5 @@
-FROM python:3.8
+# FROM python:3.8
+FROM pytorch/pytorch
 
 COPY . /app
 WORKDIR /app/src
