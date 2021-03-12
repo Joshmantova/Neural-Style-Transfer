@@ -29,8 +29,8 @@ style_image_upload = st.file_uploader('Style Image')
 content_image_upload = st.file_uploader('Content Image')
 if not style_image_upload and not content_image_upload:
     #if there are no images uploaded
-    style_image = Image.open(f'../imgs/{default_style_image_name}')
-    content_image = Image.open(f'../imgs/{default_content_image_name}')
+    style_image = Image.open(f'imgs/{default_style_image_name}')
+    content_image = Image.open(f'imgs/{default_content_image_name}')
 else:
     style_image = Image.open(style_image_upload)
     content_image = Image.open(content_image_upload)
@@ -50,7 +50,7 @@ content_image_loader = image_loader(content_image, imsize, device)
 # assert style_img.size() == content_img.size()
 
 # cnn = models.vgg19(pretrained=True).features.to(device).eval()
-cnn = torch.load('../models/VGG19.pt').to(device).eval()
+cnn = torch.load('models/VGG19.pt').to(device).eval()
 cnn_normalization_mean = torch.tensor([0.485, 0.456, 0.406]).to(device)
 cnn_normalization_std = torch.tensor([0.229, 0.224, 0.225]).to(device)
 
