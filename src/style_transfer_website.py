@@ -35,11 +35,19 @@ else:
     style_image = Image.open(style_image_upload)
     content_image = Image.open(content_image_upload)
 
+content_image_size = content_image.size
+content_image_ratio = content_image_size[0] / content_image_size[1]
+content_image_size_display = int(content_image_ratio * 444)
+
+style_image_size = style_image.size
+style_image_ratio = style_image_size[0] / style_image_size[1]
+style_image_size_display = int(style_image_ratio * 444)
+
 st.title('Content Image')
-st.image(content_image.resize((444,444)))
+st.image(content_image.resize((content_image_size_display,444)))
 
 st.title('Style Image')
-st.image(style_image.resize((444,444)))
+st.image(style_image.resize((style_image_size_display,444)))
 
 # style_image_loader = image_loader(f'../imgs/{style_image_name}', imsize, device)
 style_image_loader = image_loader(style_image, imsize, device)
@@ -67,7 +75,7 @@ out = st.empty()
 iter_info = st.empty()
 
 im = imshow(input_img)
-out.image(im.resize((444,444)))
+out.image(im.resize((content_image_size_display,444)))
 
 
 if go:
@@ -75,7 +83,7 @@ if go:
                                 content_image_loader, style_image_loader, input_img,
                                 num_steps=number_of_iterations-20, style_weight=10 ** style_weight):
         im = imshow(i)
-        out.image(im.resize((444,444)))
+        out.image(im.resize((content_image_size_display,444)))
         iter_info.write(f'Iteration Number: {n}')
     # out.image(imshow(i.resize((444,444))))
 
