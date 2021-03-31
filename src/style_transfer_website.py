@@ -19,7 +19,7 @@ preset_style_image_names = os.listdir("imgs/style_images")
 #TODO: create style weight and iterations dictionary based on each style image for general best results
 
 style_image_selection = st.sidebar.selectbox("Style Image",
-                                                preset_style_image_names) #first default should probably be starry night
+                                                preset_style_image_names, index=3) #first default should probably be starry night
 style_weight = st.sidebar.slider('Style Weight', 2, 7, step=1, value=5)
 number_of_iterations = st.sidebar.slider('Number of Iterations', 150, 1000, 300, 50)
 
