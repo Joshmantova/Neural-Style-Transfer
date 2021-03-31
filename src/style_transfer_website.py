@@ -17,23 +17,25 @@ number_of_iterations = st.sidebar.slider('Number of Iterations', 150, 1000, 300,
 
 image_quality_mapping = {"Low": 128, "Medium": 256, "High": 512, "Ultra High": 1024}
 imsize = image_quality_mapping[image_quality_selection]
-# imsize = 512 if torch.cuda.is_available() else 128
 loader = transforms.Compose([
     transforms.Resize(imsize),
     transforms.ToTensor()
 ])
-default_style_image_name = 'Alex_Grey_Over_Soul.jpg'
+default_style_image_name = 'over_soul.jpg'
 default_content_image_name = 'bird.jpg'
 
 style_image_upload = st.file_uploader('Style Image')
 content_image_upload = st.file_uploader('Content Image')
-if not style_image_upload and not content_image_upload:
-    #if there are no images uploaded
-    style_image = Image.open(f'imgs/{default_style_image_name}')
-    content_image = Image.open(f'imgs/{default_content_image_name}')
-else:
+
+if style_image_upload:
     style_image = Image.open(style_image_upload)
+else:
+    style_image = Image.open(f"imgs/{default_style_image_name}")
+
+if content_image_upload:
     content_image = Image.open(content_image_upload)
+else:
+    content_image = Image.open(f"imgs/{default_content_image_name}")
 
 content_image_size = content_image.size
 content_image_ratio = content_image_size[0] / content_image_size[1]
