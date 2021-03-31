@@ -38,7 +38,7 @@ content_image_upload = st.file_uploader('Content Image')
 if style_image_upload:
     style_image = Image.open(style_image_upload)
 else:
-    style_image = Image.open(f"imgs/style_images/{default_style_image_name}")
+    style_image = Image.open(f"imgs/style_images/{style_image_selection}")
 
 if content_image_upload:
     content_image = Image.open(content_image_upload)
