@@ -49,25 +49,15 @@ st.image(content_image.resize((content_image_size_display,444)))
 st.title('Style Image')
 st.image(style_image.resize((style_image_size_display,444)))
 
-# style_image_loader = image_loader(f'../imgs/{style_image_name}', imsize, device)
 style_image_loader = image_loader(style_image, imsize, device)
 content_image_loader = image_loader(content_image, imsize, device)
 
-# content_img = image_loader(content_image_name, imsize, device)
-
-# assert style_img.size() == content_img.size()
-
-# cnn = models.vgg19(pretrained=True).features.to(device).eval()
 cnn = torch.load('models/VGG19.pt').to(device).eval()
 cnn_normalization_mean = torch.tensor([0.485, 0.456, 0.406]).to(device)
 cnn_normalization_std = torch.tensor([0.229, 0.224, 0.225]).to(device)
 
 st.write("Running Style Transfer")
-# input_img = content_img.clone()
 input_img = torch.randn(content_image_loader.data.size(), device=device)
-
-# output = run_style_transfer(cnn, cnn_normalization_mean, cnn_normalization_std,
-#                             content_img, style_img, input_img, style_weight=1e4)
 
 go = st.button('Optimize this image')
 
@@ -76,7 +66,6 @@ iter_info = st.empty()
 
 im = imshow(input_img)
 out.image(im.resize((content_image_size_display,444)))
-
 
 if go:
     for i, n in run_style_transfer(cnn, cnn_normalization_mean, cnn_normalization_std,
