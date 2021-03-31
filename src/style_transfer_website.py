@@ -20,7 +20,7 @@ preset_style_image_names = os.listdir("imgs/style_images")
 
 style_image_selection = st.sidebar.selectbox("Style Image",
                                                 preset_style_image_names) #first default should probably be starry night
-style_weight = st.sidebar.slider('Style Weight', 2, 7, step=1, value=4)
+style_weight = st.sidebar.slider('Style Weight', 2, 7, step=1, value=5)
 number_of_iterations = st.sidebar.slider('Number of Iterations', 150, 1000, 300, 50)
 
 image_quality_mapping = {"Low": 128, "Medium": 256, "High": 512, "Ultra High": 1024}
@@ -32,31 +32,28 @@ loader = transforms.Compose([
 default_style_image_name = preset_style_image_names[0]
 default_content_image_name = 'bird.jpg'
 
+#style image
+st.title('Style Image')
 style_image_upload = st.file_uploader('Style Image')
-content_image_upload = st.file_uploader('Content Image')
-
 if style_image_upload:
     style_image = Image.open(style_image_upload)
 else:
     style_image = Image.open(f"imgs/style_images/{style_image_selection}")
+style_image_size = style_image.size
+style_image_ratio = style_image_size[0] / style_image_size[1]
+style_image_size_display = int(style_image_ratio * 444)
+st.image(style_image.resize((style_image_size_display,444)))
 
+st.title('Content Image')
+content_image_upload = st.file_uploader('Content Image')
 if content_image_upload:
     content_image = Image.open(content_image_upload)
 else:
     content_image = Image.open(f"imgs/{default_content_image_name}")
 
-style_image_size = style_image.size
-style_image_ratio = style_image_size[0] / style_image_size[1]
-style_image_size_display = int(style_image_ratio * 444)
-
 content_image_size = content_image.size
 content_image_ratio = content_image_size[0] / content_image_size[1]
 content_image_size_display = int(content_image_ratio * 444)
-
-st.title('Style Image')
-st.image(style_image.resize((style_image_size_display,444)))
-
-st.title('Content Image')
 st.image(content_image.resize((content_image_size_display,444)))
 
 style_image_loader = image_loader(style_image, imsize, device)
