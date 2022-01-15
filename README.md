@@ -2,7 +2,7 @@
 
 Url: 
 
-[Website](https://keim7yjv17.execute-api.us-west-2.amazonaws.com/default/startNstEc2Instance)
+[Website](https://share.streamlit.io/joshmantova/neural-style-transfer/main/src/style_transfer_website.py)
 
 ![](imgs/dancing.jpg)
 ![](imgs/picasso.jpg)
